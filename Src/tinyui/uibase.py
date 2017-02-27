@@ -8,6 +8,7 @@ from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QUrl
 from PyQt5.QtQml import QQmlContext
 from PyQt5.QtQml import QQmlComponent
+from PyQt5.QtQuick import QQuickView, QQuickWindow
 
 
 class UIBase(QObject):
@@ -32,6 +33,10 @@ class UIBase(QObject):
         '''qml ui 文件路径.string 类型'''
         pass
 
+    def connect_signal(self):
+        '''建立qml对象和c++对象的signal连接'''
+        pass
+
     def load_qml(self, qml_engine):
         ''' 加载qml ui描述文件 '''
         self.context = QQmlContext(qml_engine.rootContext())
@@ -43,12 +48,20 @@ class UIBase(QObject):
     @pyqtSlot(QQmlComponent.Status)
     def qml_load_status_changed(self,status):
         '''qml ui 描述文件加载状态通知'''
+        #print('qml load status ' + status)
         if status == 0:#QQmlComponent.Status.NULL:
             return
         if status == 2:#QQmlComponent.Status.Loading:
             return
         if status == 1:#QQmlComponent.Status.Ready:
             self.ui_qml_object = self.component.create(self.context)
+            if type(self.ui_qml_object) == QQuickWindow:
+                self.rootObject = self.ui_qml_object.contentItem()
             self.ui_qml_object.show()
+            self.connect_signal()
             self.ui_load_finish.emit()
+            return
+        if status == 3:#QQmlComponent::Error
+            for err in self.component.errors():
+                print(err.toString())
 
