@@ -11,7 +11,8 @@ class MainUI(UIBase):
         '''
         参考：http://doc.qt.io/qt-5/qtqml-cppintegration-interactqmlfromcpp.html
         '''
-        self.rootObject.sig_connect.connect(self.on_connect)
+        # 通过qmlengine component 创建的qml对象。应该直接代表qml的rootobject。
+        self.ui_qml_object.sig_connect.connect(self.on_connect)
 
     def on_connect(self):
         print('mainui on connect')

@@ -55,8 +55,10 @@ class UIBase(QObject):
             return
         if status == 1:#QQmlComponent.Status.Ready:
             self.ui_qml_object = self.component.create(self.context)
+            '''
             if type(self.ui_qml_object) == QQuickWindow:
-                self.rootObject = self.ui_qml_object.contentItem()
+                self.rootObject = self.ui_qml_object #.contentItem()
+            '''
             self.ui_qml_object.show()
             self.connect_signal()
             self.ui_load_finish.emit()
