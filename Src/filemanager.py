@@ -44,25 +44,12 @@ class FileManager:
         '''返回上一级'''
         self.dir(self.curpath)
 
-class PathInfo(QObject):
+class PathInfo():
     '''目录信息'''
     def __init__(self, path, folder):
-        super(PathInfo, self).__init__(None)
-        self._path = path
-        self._folder = folder
-
-    #@pyqtProperty(str)
-    def get_path(self):
-        return self._path
-
-    #@pyqtProperty(str)
-    def get_folder(self):
-        return self._folder
-
-    pathChanged = pyqtSignal()
-    folderChanged = pyqtSignal()
-    path = pyqtProperty(str, get_path, notify=pathChanged)
-    folder = pyqtProperty(bool, get_folder, notify=folderChanged)
+        #super(PathInfo, self).__init__(None)
+        self.path = path
+        self.folder = folder
 
 class PathInfoListModel(QAbstractListModel):
 
