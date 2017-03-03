@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 from tinyui.uibase import UIBase
+from PyQt5.QtCore import pyqtSlot
+from filemanager import FileManager
 
 class MainUI(UIBase):
     '''主界面'''
@@ -15,4 +17,13 @@ class MainUI(UIBase):
         self.ui_qml_object.sig_connect.connect(self.on_connect)
 
     def on_connect(self):
+        '''连接/断开手机连接'''
         print('mainui on connect')
+
+    @pyqtSlot()
+    def open_filesmanager(self):
+        '''
+        打开文件管理
+        '''
+        print('open file manager')
+        FileManager().show()

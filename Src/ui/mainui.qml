@@ -15,70 +15,85 @@ ApplicationWindow{
         id: columnLayout
         anchors.fill: parent
 
-        Button {
-            id: connect
-            text: qsTr("连接")
-            onClicked: {
-                root.sig_connect()
+        RowLayout {
+            id: rowLayout
+            width: 100
+            height: 100
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            Button {
+                id: connect
+                text: qsTr("连接")
+                onClicked: {
+                    root.sig_connect()
+                }
             }
         }
 
-        GridView {
-            id: layouttools
-            width: 140
-            height: 140
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        GridLayout {
+            id: gridLayout
+            width: 100
+            height: 100
+            rows: 4
+            columns: 4
             Layout.fillHeight: true
             Layout.fillWidth: true
-            cellWidth: 70
-            model: ListModel {
-                ListElement {
-                    name: "Grey"
-                    colorCode: "grey"
-                }
-
-                ListElement {
-                    name: "Red"
-                    colorCode: "red"
-                }
-
-                ListElement {
-                    name: "Blue"
-                    colorCode: "blue"
-                }
-
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-            }
-            delegate: Item {
-                x: 5
-                height: 50
-                Column {
-                    Rectangle {
-                        width: 40
-                        height: 40
-                        color: colorCode
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Text {
-                        x: 5
-                        text: name
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.bold: true
-                    }
-                    spacing: 5
-                }
-            }
-            cellHeight: 70
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
             Button {
                 id: files
-                text: qsTr("Button")
+                text: qsTr("文件管理")
+                Layout.row:0
+                Layout.column: 0
+                Layout.columnSpan: 1
+                Layout.rowSpan: 1
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                onClicked: {
+                    thismodel.open_filesmanager()
+                }
+            }
+            Button {
+                id: unknonw2
+                text: qsTr("")
+                Layout.columnSpan: 1
+                Layout.rowSpan: 1
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Button {
+                id: unknonw3
+                text: qsTr("")
+                Layout.columnSpan: 1
+                Layout.rowSpan: 1
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Button {
+                id: unknonw4
+                text: qsTr("")
+                Layout.columnSpan: 1
+                Layout.rowSpan: 1
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+            Button {
+                id: unknonw5
+                text: qsTr("")
+                Layout.columnSpan: 1
+                Layout.rowSpan: 1
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
         }
+
+
 
     }
 }

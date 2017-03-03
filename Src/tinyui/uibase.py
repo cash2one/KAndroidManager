@@ -5,7 +5,7 @@ UI界面基础类。
 定义和Qml.ui的交互接口
 '''
 from abc import ABCMeta, abstractmethod
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QUrl
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QUrl, QVariant
 from PyQt5.QtQml import QQmlContext
 from PyQt5.QtQml import QQmlComponent
 from PyQt5.QtQuick import QQuickView, QQuickWindow
@@ -26,7 +26,7 @@ class UIBase(QObject):
     def __init__(self):
         '''对象初始化'''
         super(UIBase, self).__init__()
-        self.name_in_qml = 'this_model'
+        self.name_in_qml = 'thismodel'
 
     #@abstractmethod
     def qml_url(self):
@@ -44,6 +44,10 @@ class UIBase(QObject):
         self.component = QQmlComponent(qml_engine)
         self.component.statusChanged.connect(self.qml_load_status_changed)
         self.component.loadUrl(QUrl(self.qml_url()))
+
+    def set_context_property(self, name, obj):
+        '''给UI设置属性'''
+        self.context.setContextProperty(name, obj)
 
     @pyqtSlot(QQmlComponent.Status)
     def qml_load_status_changed(self,status):
