@@ -1,13 +1,25 @@
 # -*- coding: UTF-8 -*-
 
 from tinyui.uibase import UIBase
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, pyqtProperty, pyqtSignal
 from filemanager import FileManager
+from adbmanager import AdbManager
 
 class MainUI(UIBase):
     '''主界面'''
     def qml_url(self):
         return 'ui/mainui.qml'
+    
+    def device(self):
+        if hasattr(self,"_device"):
+            return self._device
+        else:
+            return "未连接"
+    def set_device(self, value):
+        self._device = value
+        self.device_change.emit()
+    device_change = pyqtSignal()
+    device = pyqtProperty(str,device, fset=set_device, notify=device_change)
 
     def connect_signal(self):
         '''
@@ -19,6 +31,9 @@ class MainUI(UIBase):
     def on_connect(self):
         '''连接/断开手机连接'''
         print('mainui on connect')
+        dev = AdbManager().connect()
+        if dev:
+            self.device = dev
 
     @pyqtSlot()
     def open_filesmanager(self):

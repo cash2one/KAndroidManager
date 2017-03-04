@@ -5,26 +5,44 @@ adb 管理
 '''
 
 import os.path as op
-
-from adb import adb_commands
-from adb import sign_m2crypto
+import subprocess
+import chardet
 
 class AdbManager:
     '''
     adb管理器
     '''
+
+    __instance = None
+    def __new__(cls):
+        if AdbManager.__instance is None:
+            AdbManager.__instance = object.__new__(cls)
+        return AdbManager.__instance
+
     def __init__(self):
         '''init'''
         pass
     def connect(self):
         '''
         连接android设备
+        return: str设备编码 or None
         '''
-        # KitKat+ devices require authentication
-        self.signer = sign_m2crypto.M2CryptoSigner(
-            op.expanduser('~/.android/adbkey'))
-        # Connect to the device
-        self.device = adb_commands.AdbCommands.ConnectDevice(
-            rsa_keys=[self.signer])
+        return self.adb_devices()
 
-        print(self.device.Shell('pwd'))
+    def adb_devices(self):
+        out = self.adb_commond("devices")
+        outs = str(out, chardet.detect(out)['encoding'])
+        lines = outs.split('\n')
+        if lines[0] == 'List of devices attached':
+            if len(lines) > 1 and lines[1] != '':
+                device = lines[1].split('\t')
+                return device[0]
+            else:
+                print("no find device")
+                return None
+        else:
+            print(outs)
+            return None
+
+    def adb_commond(self, cmd):
+        return subprocess.check_output(['adb', cmd])

@@ -29,6 +29,12 @@ ApplicationWindow{
                     root.sig_connect()
                 }
             }
+
+            Label {
+                id: device
+                text: thismodel.device
+                Layout.fillWidth: false
+            }
         }
 
         GridLayout {
